@@ -93,7 +93,7 @@ if(isset($_POST['logout'])){
                         if($result->num_rows>0){
                             echo $result->num_rows;
                         }else{
-                            "0";
+                            echo "0";
                         }
                     echo "/";
                     echo $result->fetch_assoc()['maximum_population'];
