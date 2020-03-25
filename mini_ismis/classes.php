@@ -87,7 +87,7 @@ if(isset($_POST['logout'])){
                     on subjects.id=subject_id
                     where schedule_id=".$_GET['id'];
                     $result = $conn->query($sql);
-                    echo "<li class=\"info\">Subject: ".$_GET['name']."</li>"
+                    echo "<li class=\"info\">Subject: ".$_GET['name']."</li>";
                     echo "<li class=\"info\">Group Number: ". $_GET['id']."</li>
                     <li class=\"info\">Population: ";
                         if($result->num_rows>0){
