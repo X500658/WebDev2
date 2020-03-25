@@ -27,8 +27,8 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
     }
     $sql = "DELETE FROM subject_faculty WHERE faculty_id=" .$_GET['faculty_id']." AND subject_id= ".$_GET['subject_id'];
     // echo $sql;
-    if ($conn->query($sql) === TRUE) {
-        header("Location: faculty.php");
+    if ($conn->query($sql) === false) {
+        echo $conn->error;
     }
 
     $sql = "DELETE FROM schedules WHERE id=" .$_GET['id'];
@@ -85,7 +85,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
 <head>
     <title>minIsmis - Faculty</title>
 </head>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+<<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" type="text/css" href="../style.css" />
