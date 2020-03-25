@@ -154,7 +154,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
 
 
 
-
                     <form id="filterRadio" action="./faculty.php" method="POST">
                     <?php
                         if (!isset($_POST['filterSubject'])) : ?>
