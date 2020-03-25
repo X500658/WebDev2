@@ -1,0 +1,29 @@
+DROP DATABASE mini_ismis;
+CREATE DATABASE mini_ismis;
+
+CREATE TABLE mini_ismis.users(id INT(11) PRIMARY KEY AUTO_INCREMENT,first_name VARCHAR(255) NOT NULL,last_name VARCHAR(255) NOT NULL,email VARCHAR(255) UNIQUE NOT NULL,password VARCHAR(255) NOT NULL,user_type ENUM('STUDENT','FACULTY','ADMIN') NOT NULL);
+
+CREATE TABLE mini_ismis.subjects(id INT(11) PRIMARY KEY AUTO_INCREMENT,name VARCHAR(255) NOT NULL,maximum_population INT(5) NOT NULL);
+
+CREATE TABLE mini_ismis.subject_faculty(id INT(11) PRIMARY KEY AUTO_INCREMENT,faculty_id INT(11) NOT NULL,subject_id INT(11) NOT NULL,FOREIGN KEY(faculty_id) REFERENCES mini_ismis.users(id) ON DELETE CASCADE,FOREIGN KEY(subject_id) REFERENCES mini_ismis.subjects(id) ON DELETE CASCADE);
+
+CREATE TABLE mini_ismis.subject_student(id INT(11) PRIMARY KEY AUTO_INCREMENT,student_id INT(11) NOT NULL,subject_id INT(11) NOT NULL,FOREIGN KEY(student_id) REFERENCES mini_ismis.users(id) ON DELETE CASCADE,FOREIGN KEY(subject_id) REFERENCES mini_ismis.subjects(id) ON DELETE CASCADE);
+
+CREATE TABLE mini_ismis.schedules(id INT(11) PRIMARY KEY AUTO_INCREMENT,subject_id INT(11) NOT NULL,faculty_id INT(11) NOT NULL,FOREIGN KEY(subject_id) REFERENCES mini_ismis.subjects(id) ON DELETE CASCADE,FOREIGN KEY(faculty_id) REFERENCES mini_ismis.users(id) ON DELETE CASCADE,created_on DATETIME DEFAULT CURRENT_TIMESTAMP);
+
+
+CREATE TABLE mini_ismis.schedule_session(id INT(11) PRIMARY KEY AUTO_INCREMENT,schedule_id INT(11) NOT NULL,FOREIGN KEY(schedule_id) REFERENCES mini_ismis.schedules(id) ON DELETE CASCADE,day_of_week ENUM('SUN','MON','TUE','WED','THU','FRI','SAT'),start TIME NOT NULL,end TIME NOT NULL);
+
+CREATE TABLE mini_ismis.classes(id INT(11) PRIMARY KEY AUTO_INCREMENT,schedule_id INT(11) NOT NULL,student_id INT(11) NOT NULL,FOREIGN KEY(schedule_id) REFERENCES mini_ismis.schedules(id) ON DELETE CASCADE,FOREIGN KEY(student_id) REFERENCES mini_ismis.users(id) ON DELETE CASCADE);
+
+DELIMITER //
+CREATE TRIGGER mini_ismis.purge_schedules
+AFTER DELETE
+ON mini_ismis.schedule_session FOR EACH ROW
+BEGIN
+    DELETE FROM mini_ismis.schedules
+    WHERE  NOT EXISTS (
+       SELECT * FROM mini_ismis.schedule_session
+       WHERE  schedule_session.schedule_id = schedules.id
+       );
+END; //
