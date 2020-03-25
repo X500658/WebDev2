@@ -105,9 +105,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="../home.php"><span>Home</span></a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="../schedule.php"><span>Schedule</span></a>
                 </li>
                 <li class="nav-item">
