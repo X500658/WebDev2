@@ -61,11 +61,11 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
     order by users.id ASC";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
-        echo "<table class=\"table text-white\"><tr><th>Student</th><th>Subject</th><th>Edit</th><th>Delete</th></tr>";
+        echo "<table class=\"table text-white\"><tr><th>Student</th><th>Subject</th><th>Delete</th></tr>";
             while ($row = $result->fetch_assoc()){
                 echo "<tr><td>".$row["first_name"]." " .$row["last_name"]."</td>";
                 echo "<td>".$row["name"]."</td>";
-                echo "<td><a href=\"../update.php?info=users&id=".$row["stu"]."\"><button class=\"btn btn-info btn-xs\" data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#edit\" ><span class=\"glyphicon glyphicon-pencil\"></span></button></p></a></td>";
+                // echo "<td><a href=\"../update.php?info=users&id=".$row["stu"]."\"><button class=\"btn btn-info btn-xs\" data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#edit\" ><span class=\"glyphicon glyphicon-pencil\"></span></button></p></a></td>";
                 echo "<td><a href=\"students.php?action=delete&student_id=".$row["stu"]."&subject_id=".$row["subject_id"]."\"><button class=\"btn btn-danger btn-xs\" data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\" ><span class=\"glyphicon glyphicon-trash\"></span></button></p></td>";
                 echo '</tr>';
             }
@@ -317,7 +317,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
 
 
 
-                <div class="row justify-content-around bor circ spacer text-white">
+                <div class="row justify-content-around bor circ spacer text-white" style="margin-bottom: 20px;">
                             <h2 class="text-center">Filter</h2>
         <form id="filterOption" action="./students.php" method="POST">
             <?php if (!isset($_POST['selectSubjects'])) : ?>
@@ -389,6 +389,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
                 ?>
             </select>
         </form>
+        <br>
         </div>
 
 
