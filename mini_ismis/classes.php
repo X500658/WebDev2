@@ -94,7 +94,7 @@ if(isset($_POST['logout'])){
                         }
                     echo "/";
                     echo $result->fetch_assoc()['maximum_population'];
-                    echo "<hr></li>";
+                    echo "</li>";
                 ?>
                 </ul>
                 <br>
