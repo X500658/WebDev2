@@ -20,7 +20,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "DELETE FROM subjects WHERE id=" .$_GET['id'];
+    $sql = "DELETE FROM mini_ismis.subjects WHERE id=" .$_GET['id'];
     // echo $sql;
     if ($conn->query($sql) === TRUE) {
         header("Location: subjects.php");
@@ -153,8 +153,7 @@ function fac_tabler(){
         " order by schedule_session.schedule_id ASC";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
-        echo "<div class=\"col-auto justify-content-center\"><table class=\"table text-white\"><tr><th>Subject</th><th>Group #</th><th>Population</th><th>Day</th><th>Time</th></tr>";
-        // <th>Delete</th></tr>";
+        echo "<table class=\"table text-white\"><tr><th>Subject</th><th>Group #</th><th>Population</th><th>Day</th><th>Time</th><th>Delete</th></tr>";
         while($row = $result->fetch_assoc()){
             $sql2 = "SELECT * FROM classes
                 where schedule_id=".$row['schedule_id'];
@@ -179,10 +178,9 @@ function fac_tabler(){
                 echo "</td>";
             }
             echo "<td>".date('g:ia', strtotime($row["start"]))." - ".date('g:ia', strtotime($row["end"]))."</td></a>";
-            // echo "<td><a href=\"schedule.php?action=delete&id=".$row["schedule_id"]."\"><button class=\"btn btn-danger btn-xs\" data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\" ><span class=\"glyphicon glyphicon-trash\"></span></button></p></td>";
+            echo "<td><a href=\"subjects.php?action=delete&id=".$row["schedule_id"]."\"><button class=\"btn btn-danger btn-xs\" data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\" ><span class=\"glyphicon glyphicon-trash\"></span></button></p></td>";
             echo "</tr>";
         }
-        echo "</table></div>";
     }else{
         echo "0 results";
     }
@@ -285,7 +283,7 @@ function fac_tabler(){
                         <div class="form-group">
                             <label for="subj">Select Subject:</label>
                             <select id="studentEnrollSelect" class="form-control" id="subj" name="subj">
-                                <option selected disabled>Choose...</option>
+                                <option selected>Choose...</option>
                                 <?php
                                     $servername = "localhost";
                                     $username = "root";
@@ -381,7 +379,7 @@ function fac_tabler(){
                                         $result4->data_seek(0);
                                         if ($isConflict==1 || $row6['COUNT(*)']>=$row5['maximum_population']) : 
                                             $isConflict = 0; ?>
-                                            <li class="invalid list-group-item disabled circ">
+                                            <li class="text-danger invalid list-group-item disabled circ">
                                             Group Number: <?php echo $row['id'] ?>&ensp;<br/>
                                     <?php while ($row4=$result4->fetch_assoc()) : ?>
                                                 <?php echo $row4['day_of_week'] ?>&ensp;<?php echo $row4['start'] ?>-<?php echo $row4['end'] ?>&emsp;<br/>
