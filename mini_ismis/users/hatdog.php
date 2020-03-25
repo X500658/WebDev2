@@ -146,9 +146,10 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
         </div>
     </nav>
     <div class="bg-success circ spacer">
-        <div class="row">
-            <div class="col-4 bg-success text-white circ">
-                <h2 class="text-center">Enroll Student</h2>
+        <div class="row justify-content-around spacer">
+            <div class="col-3 bg-success text-white circ">
+            <div class="row justify-content-around bor circ spacer text-white">
+                <h2 class="text-center">Enroll Student</h2><br>
                 <form id="studentForm" method="POST" action="<?php echo $_SERVER['PHP_SELF'] ?>">
                     <input id="studentInput" type="hidden" name="student" value="">
                     <div class="form-group">
@@ -301,13 +302,13 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
                 </form>
                 <?php $conn->close(); ?>
                 <?php endif ?>
+                </div>
 
 
 
 
-
-
-            Filter
+                <div class="row justify-content-around bor circ spacer text-white">
+                            <h2 class="text-center">Filter</h2>
         <form id="filterOption" action="./students.php" method="POST">
             <?php if (!isset($_POST['selectSubjects'])) : ?>
                 <input type="radio" id="filterStudents" name="filter" checked="checked">
@@ -325,8 +326,9 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
         </form>
         
         <form id="filterForm1" action="./students.php" method="POST">
+            <label for="filterStudents">Select Students:</label>
             <select class="text-dark filterOptions1" id="selectStudents" name="selectStudents">
-                <option class="text-dark">none</option>
+                <option class="text-dark">None</option>
                 
 
                 <?php
@@ -344,7 +346,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
                 <?php else: ?>
                         <option  class="text-dark" value="<?php echo $rowFilter['id'] ?>">
                 <?php endif ?>
-                            ID:<?php echo $rowFilter['id'] ?> | First Name:<?php echo $rowFilter['first_name'] ?> | Last Name:<?php echo $rowFilter['last_name'] ?>
+                           <?php echo $rowFilter['first_name']. " ".$rowFilter['last_name'] ?>
                         </option>
               <?php endwhile; 
                     $conn->close();
@@ -352,8 +354,9 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
             </select>
         </form>
         <form id="filterForm2" action="./students.php" method="POST">
+            <label for="filterSubject">Select Subject:</label>
             <select class="text-dark filterOptions2" id="selectSubjects" name="selectSubjects">
-                <option class="text-dark">none</option>
+                <option class="text-dark">None</option>
                 <?php
                     $servername = "localhost";
                     $username = "root";
@@ -369,14 +372,14 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
                         <?php else: ?>
                             <option  class="text-dark" value="<?php echo $rowFilter['id'] ?>">
                         <?php endif ?>
-                                ID:<?php echo $rowFilter['id'] ?> | Name:<?php echo $rowFilter['name'] ?> 
+                                <?php echo $rowFilter['name'] ?> 
                             </option>
               <?php endwhile; 
                     $conn->close();
                 ?>
             </select>
         </form>
-
+        </div>
 
 
 
