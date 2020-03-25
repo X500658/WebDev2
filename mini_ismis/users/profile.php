@@ -184,11 +184,6 @@ function fac_tabler(){
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <?php if($_SESSION['type']==="ADMIN"):?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../schedule.php"><span>Schedule</span></a>
-                    </li>
-                <?php endif?>
                 <li class="nav-item">
                     <a class="nav-link" href="../subjects.php"><span>Subjects</span></a>
                 </li>
