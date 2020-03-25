@@ -10,21 +10,7 @@ if(isset($_POST['logout'])){
     session_destroy();
     header("location: index.php");
 }
-$servername = "localhost";
-                    $username = "root";
-                    $password = "";
-                    $dbname = "mini_ismis";
-                    $conn = new mysqli($servername, $username, $password, $dbname);
-                    if ($conn->connect_error) {
-                        die("Connection failed: " . $conn->connect_error);
-                    }
-                    $sql = "SELECT * FROM classes 
-                    left join schedules
-                    on schedules.id=schedule_id
-                    left join subjects
-                    on subjects.id=subject_id
-                    where schedule_id=".$_GET['id'];
-                    $result = $conn->query($sql);
+
 ?>
 
 <!DOCTYPE html>
@@ -85,10 +71,34 @@ $servername = "localhost";
             <div class="col-4 text-white sidebar">
                 <h2 class="text-center">Profile</h2>
                 <ul class="list-group">
-                        <li class="info">Subject: <?php echo $_GET['name'];?></li>
-                        <li class="info">Group Number: <?php echo $_GET['id'];?></li>
-                        <li class="info">Population: <?php echo ($result->num_rows>0)?$result->num_rows:"0". "/".$result->fetch_assoc()['maximum_population']?></li>
-                        <br>
+                <?php
+                    $servername = "localhost";
+                    $username = "root";
+                    $password = "";
+                    $dbname = "mini_ismis";
+                    $conn = new mysqli($servername, $username, $password, $dbname);
+                    if ($conn->connect_error) {
+                        die("Connection failed: " . $conn->connect_error);
+                    }
+                    $sql = "SELECT * FROM classes 
+                    left join schedules
+                    on schedules.id=schedule_id
+                    left join subjects
+                    on subjects.id=subject_id
+                    where schedule_id=".$_GET['id'];
+                    $result = $conn->query($sql);
+                    echo "<li class=\"info\">Subject: ".$_GET['name']."</li>"
+                    echo "<li class=\"info\">Group Number: ". $_GET['id']."</li>
+                    <li class=\"info\">Population: ";
+                        if($result->num_rows>0){
+                            echo $result->num_rows;
+                        }else{
+                            "0";
+                        }
+                    echo "/";
+                    echo $result->fetch_assoc()['maximum_population'];
+                    echo "</li>";
+                ?>
                 </ul>
                 <br>
             </div>
@@ -117,7 +127,7 @@ $servername = "localhost";
                                 </tr>";
                         }
                     }else{
-                        echo "0 results";
+                        echo "<h3 class=\"text-white text-center\">No Student Enrolled";
                     }
                     $conn->close();
             ?>
