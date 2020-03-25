@@ -80,24 +80,21 @@ if(isset($_POST['logout'])){
                     if ($conn->connect_error) {
                         die("Connection failed: " . $conn->connect_error);
                     }
-                    $sql = "SELECT * FROM classes 
-                    left join schedules
-                    on schedules.id=schedule_id
-                    left join subjects
-                    on subjects.id=subject_id
-                    where schedule_id=".$_GET['id'];
+                    $sql = "SELECT * from subjects where name='".$_GET['name']."'";
+                    $sql2= "select * from classes where schedule_id=".$_GET['id'];
                     $result = $conn->query($sql);
+                    $result2 = $conn->query($sql2);
                     echo "<li class=\"info\">Subject: ".$_GET['name']."</li>";
                     echo "<li class=\"info\">Group Number: ". $_GET['id']."</li>
                     <li class=\"info\">Population: ";
-                        if($result->num_rows>0){
-                            echo $result->num_rows;
+                        if($result2->num_rows>0){
+                            echo $result2->num_rows;
                         }else{
                             echo "0";
                         }
                     echo "/";
                     echo $result->fetch_assoc()['maximum_population'];
-                    echo "</li>";
+                    echo "<hr></li>";
                 ?>
                 </ul>
                 <br>
