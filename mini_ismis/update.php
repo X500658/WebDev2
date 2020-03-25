@@ -73,7 +73,7 @@ if(isset($_POST['submit'])){
         die("Connection failed: " . $conn->connect_error);
     }
     if($info=='subjects'){
-        $sql = "UPDATE ".$info." SET name = '".$_POST['name']."' WHERE id =" .$_GET['id'];
+        $sql = "UPDATE ".$info." SET name = '".$_POST['name']."', maximum_population='".$_POST['maxpop']."' WHERE id =" .$_GET['id'];
         if ($conn->query($sql) === TRUE) {
             header("location: " .$info. ".php");
         }else{
