@@ -20,6 +20,17 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
     if ($conn->connect_error) {
 	    die("Connection failed: " . $conn->connect_error);
     }
+    $sql = "DELETE FROM schedules WHERE faculty_id=" .$_GET['faculty_id']." AND subject_id= ".$_GET['subject_id'];
+    // echo $sql;
+    if ($conn->query($sql) === TRUE) {
+        header("Location: faculty.php");
+    }
+    $sql = "DELETE FROM subject_faculty WHERE faculty_id=" .$_GET['faculty_id']." AND subject_id= ".$_GET['subject_id'];
+    // echo $sql;
+    if ($conn->query($sql) === TRUE) {
+        header("Location: faculty.php");
+    }
+
     $sql = "DELETE FROM schedules WHERE id=" .$_GET['id'];
     // echo $sql;
     if ($conn->query($sql) === TRUE) {
@@ -37,12 +48,12 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
     die("Connection failed: " . $conn->connect_error);
     }
     $compile = '';
-    if (isset($_POST['filterFaculty']) && $_POST['filterFaculty']!='none'){
+    if (isset($_POST['filterFaculty']) && $_POST['filterFaculty']!='None'){
         $compile .= "AND faculty_id={$_POST['filterFaculty']}";
-    }else if (isset($_POST['filterSubject']) && $_POST['filterSubject']!='none'){
+    }else if (isset($_POST['filterSubject']) && $_POST['filterSubject']!='None'){
         $compile .= "AND subject_id={$_POST['filterSubject']}";
     }
-    $sql = "SELECT distinct users.id as fac, users.first_name,users.last_name, subjects.name from subject_faculty
+    $sql = "SELECT distinct users.id as fac, users.first_name,users.last_name, subjects.name,subjects.id AS sub_id from subject_faculty
     inner join users
     on faculty_id=users.id
     inner join subjects
@@ -58,7 +69,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
                 echo "<tr><td>".$row["first_name"]." " .$row["last_name"]."</td>";
                 echo "<td>".$row["name"]."</td>";
                 // echo "<td><a href=\"../update.php?info=users&id=".$row["fac"]."\"><button class=\"btn btn-info btn-xs\" data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#edit\" ><span class=\"glyphicon glyphicon-pencil\"></span></button></p></a></td>";
-                echo "<td><a href=\"faculty.php?action=delete&id=".$row["fac"]."\"><button class=\"btn btn-danger btn-xs\" data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\" ><span class=\"glyphicon glyphicon-trash\"></span></button></p></td>";
+                echo "<td><a href=\"faculty.php?action=delete&faculty_id=".$row["fac"]."&subject_id=".$row["sub_id"]."\"><button class=\"btn btn-danger btn-xs\" data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\" ><span class=\"glyphicon glyphicon-trash\"></span></button></p></td>";
                 echo '</tr>';
             }
         echo "</table>";
