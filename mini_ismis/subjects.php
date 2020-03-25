@@ -36,12 +36,12 @@ if(isset($_POST['submit'])){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    // $sql = "INSERT INTO subjects(name, maximum_population) VALUES('".$_POST['name']."','".$_POST['maxpop']."')";
-    // if ($conn->query($sql) === TRUE) {
-        // echo "New record created successfully";
-    // } else {
-    //     echo "Error: " . $sql . "<br>" . $conn->error;
-    // }
+    $sql = "INSERT INTO subjects(name, maximum_population) VALUES('".$_POST['name']."','".$_POST['maxpop']."')";
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
 }
 
 function admin_tabler(){      
@@ -153,7 +153,8 @@ function fac_tabler(){
         " order by schedule_session.schedule_id ASC";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
-        echo "<table class=\"table text-white\"><tr><th>Subject</th><th>Group #</th><th>Population</th><th>Day</th><th>Time</th><th>Delete</th></tr>";
+        echo "<div class=\"col-auto justify-content-center\"><table class=\"table text-white\"><tr><th>Subject</th><th>Group #</th><th>Population</th><th>Day</th><th>Time</th></tr>";
+        // <th>Delete</th></tr>";
         while($row = $result->fetch_assoc()){
             $sql2 = "SELECT * FROM classes
                 where schedule_id=".$row['schedule_id'];
@@ -178,9 +179,10 @@ function fac_tabler(){
                 echo "</td>";
             }
             echo "<td>".date('g:ia', strtotime($row["start"]))." - ".date('g:ia', strtotime($row["end"]))."</td></a>";
-            echo "<td><a href=\"schedule.php?action=delete&id=".$row["schedule_id"]."\"><button class=\"btn btn-danger btn-xs\" data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\" ><span class=\"glyphicon glyphicon-trash\"></span></button></p></td>";
+            // echo "<td><a href=\"schedule.php?action=delete&id=".$row["schedule_id"]."\"><button class=\"btn btn-danger btn-xs\" data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\" ><span class=\"glyphicon glyphicon-trash\"></span></button></p></td>";
             echo "</tr>";
         }
+        echo "</table></div>";
     }else{
         echo "0 results";
     }
@@ -283,7 +285,7 @@ function fac_tabler(){
                         <div class="form-group">
                             <label for="subj">Select Subject:</label>
                             <select id="studentEnrollSelect" class="form-control" id="subj" name="subj">
-                                <option selected>Choose...</option>
+                                <option selected disabled>Choose...</option>
                                 <?php
                                     $servername = "localhost";
                                     $username = "root";
