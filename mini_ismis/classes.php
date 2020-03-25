@@ -87,7 +87,7 @@ $servername = "localhost";
                 <ul class="list-group">
                         <li class="info">Subject: <?php echo $_GET['name'];?></li>
                         <li class="info">Group Number: <?php echo $_GET['id'];?></li>
-                        <li class="info">Population: <?php echo $result->num_rows. "/".$result->fetch_assoc()['maximum_population']?></li>
+                        <li class="info">Population: <?php echo ($result->num_rows>0)?$result->num_rows:"0". "/".$result->fetch_assoc()['maximum_population']?></li>
                         <br>
                 </ul>
                 <br>
