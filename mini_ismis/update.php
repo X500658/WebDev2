@@ -29,6 +29,7 @@ if (isset($_GET['info'])){
     $conn->close();
 }
 
+
 function boxer(){
     $servername = "localhost";
     $username = "root";
