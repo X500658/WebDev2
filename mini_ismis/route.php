@@ -17,9 +17,6 @@
 
     if (isset($_GET['tableName'])){
         if (isset($_GET['insert']) && $_GET['insert']=='1'){
-            echo 'a';print_r($_POST['subject']==false);
-            echo 'b';print_r($_POST['student']==false);
-            echo 'c';print_r($_POST['schedule']==false);
             if (isset($_POST['subject']) && isset($_POST['student']) && isset($_POST['schedule'])){
                 $sql = "INSERT INTO mini_ismis.subject_student(subject_id,student_id) VALUES
                                                                 ({$_POST['subject']},{$_POST['student']})";
@@ -31,7 +28,11 @@
                 if ($result=$conn->query($sql)==false){
                     die($sql);
                 }
-                header("Location: ../users/students.php");
+                if ($_SESSION['type']=='ADMIN'){
+                    header("Location: ../users/students.php");
+                }else {
+                    header("Location: ../subjects.php");
+                }
                 exit();
             }
             if (isset($_POST['faculty']) && isset($_POST['chosenSubject']) && isset($_POST['day_of_week']) && isset($_POST['startHour'])
