@@ -20,10 +20,17 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
     if ($conn->connect_error) {
 	    die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "DELETE FROM schedules WHERE id=" .$_GET['id'];
+    $sql = "DELETE classes FROM mini_ismis.classes
+            INNER JOIN mini_ismis.schedules ON classes.schedule_id=schedules.id
+            WHERE schedules.subject_id={$_GET['subject_id']} AND classes.student_id={$_GET['student_id']}";
     // echo $sql;
+    if ($conn->query($sql) === false) {
+        echo $conn->error;
+    }
+    $sql = "DELETE FROM mini_ismis.subject_student
+            WHERE subject_id={$_GET['subject_id']} AND student_id={$_GET['student_id']}";
     if ($conn->query($sql) === TRUE) {
-        header("Location: faculty.php");
+        header("Location: students.php");
     }
 }
 
@@ -42,7 +49,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
     }else if (isset($_POST['selectSubjects']) && $_POST['selectSubjects']!='None') {
         $compile .= "AND subjects.id = {$_POST['selectSubjects']}";
     }
-    $sql = "SELECT DISTINCT users.id as stu, users.first_name, users.last_name, subjects.name FROM `classes`
+    $sql = "SELECT DISTINCT users.id as stu, users.first_name, users.last_name, subjects.name,schedules.subject_id AS subject_id FROM `classes`
     INNER JOIN users
     on student_id=users.id
     INNER JOIN schedule_session
@@ -59,7 +66,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
                 echo "<tr><td>".$row["first_name"]." " .$row["last_name"]."</td>";
                 echo "<td>".$row["name"]."</td>";
                 echo "<td><a href=\"../update.php?info=users&id=".$row["stu"]."\"><button class=\"btn btn-info btn-xs\" data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#edit\" ><span class=\"glyphicon glyphicon-pencil\"></span></button></p></a></td>";
-                echo "<td><a href=\"student.php?action=delete&id=".$row["stu"]."\"><button class=\"btn btn-danger btn-xs\" data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\" ><span class=\"glyphicon glyphicon-trash\"></span></button></p></td>";
+                echo "<td><a href=\"students.php?action=delete&student_id=".$row["stu"]."&subject_id=".$row["subject_id"]."\"><button class=\"btn btn-danger btn-xs\" data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\" ><span class=\"glyphicon glyphicon-trash\"></span></button></p></td>";
                 echo '</tr>';
             }
         echo "</table>";
